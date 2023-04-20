@@ -68,3 +68,43 @@ class QuestionIndexViewTests(TestCase):
         future_question_2 = create_question("Future question 2", 40)
         response = self.client.get(reverse("polls:index"))
         self.assertNotIn([future_question_1, future_question_2], response.context["latest_question_list"])
+
+
+class QuestionDetailViewTests(TestCase):
+    def test_future_question(self):
+        """The detail view of a question with a pub_date in the future returns 404 error not found."""
+        future_question = create_question("Future question", 30)
+        url = reverse("polls:detail", args=(future_question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+
+    def test_past_question(self):
+        """The detail view of a question with a pub_date in the past displayed  the question's text."""
+        past_question = create_question("Past question", -30)
+        url = reverse("polls:detail", args=(past_question.id,))
+        response = self.client.get(url)
+        self.assertContains(response, past_question.question_text)
+
+
+class ResultViewTest(TestCase):
+
+    def test_with_past_question(self):
+        """
+        The result view with a pub date in the past display the 
+        question's text
+        """
+        past_question = create_question("past question", days=-15)
+        url = reverse("polls:results", args=(past_question.id,))
+        response = self.client.get(url)
+        self.assertContains(response, past_question.question_text)
+
+    def test_with_future_question(self):
+        """
+        Questions with a future date aren't displayed and this return a 404 error(not found) 
+        until the date is the specified date
+        """
+        future_question = create_question("this is a future question", days=30)
+        url = reverse("polls:results", args=(future_question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
