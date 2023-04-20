@@ -46,3 +46,25 @@ class QuestionIndexViewTests(TestCase):
         past_question = create_question("Past question", -10)
         response = self.client.get(reverse("polls:index"))
         self.assertQuerysetEqual(response.context["latest_question_list"], [past_question])
+
+    def test_future_question_and_past_question(self):
+        """Even if both past and future question exists only past question are displayed"""
+        past_question = create_question("Past question", -30)
+        future_question = create_question("Future question", 30)
+        response = self.client.get(reverse("polls:index"))
+        self.assertQuerysetEqual(response.context["latest_question_list"], [past_question])
+        self.assertNotIn(future_question, response.context["latest_question_list"])
+
+    def test_two_past_question(self):
+        """The question index page may display multiple questions """
+        past_question_1 = create_question("Past question", -30)
+        past_question_2 = create_question("Past question", -40)
+        response = self.client.get(reverse("polls:index"))
+        self.assertQuerysetEqual(response.context["latest_question_list"], [past_question_1, past_question_2])
+
+    def test_two_future_question(self):
+        """The question index page should not display any questions """
+        future_question_1 = create_question("Future question 1", 30)
+        future_question_2 = create_question("Future question 2", 40)
+        response = self.client.get(reverse("polls:index"))
+        self.assertNotIn([future_question_1, future_question_2], response.context["latest_question_list"])
