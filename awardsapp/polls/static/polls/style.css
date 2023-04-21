@@ -1,12 +1,16 @@
 body {
-  background: #4b6cb7;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #182848, #4bb759);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #182848, #4bb759);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #182848;
+  flex-direction: column;
+  
+  height: 100vh;
+  /* background: -webkit-linear-gradient(to right, #182848, #4bb759);
+  background: linear-gradient(to right, #182848, #4bb759); */
   font-family: Arial, Helvetica, sans-serif;
 }
+
 
 .color-change-2x:hover {
   -webkit-animation: color-change-2x 2s linear infinite alternate both;
@@ -15,25 +19,28 @@ body {
 
 @-webkit-keyframes color-change-2x {
   0% {
-    background: #19ea8c
+    background: #199a60
   }
 
   100% {
-    background: #b22cff
+    background: #9c28de
   }
 }
 
 @keyframes color-change-2x {
   0% {
-    background: #19ea9a
+    background: #199a60
   }
 
   100% {
-    background: #b22cff
+    background: #9c28de
   }
 }
 
 li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   -webkit-backdrop-filter: blur(8.5px);
   backdrop-filter: blur(8.5px);
   background: rgba(255, 255, 255, 0.2);
@@ -41,9 +48,15 @@ li {
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   list-style: none;
-  margin: 30px 0;
-  padding: 5px;
-  width: fit-content;
+
+  /* margin: 30px 0; */
+  align-items: center;
+  width: 500px;
+
+  padding: 50px;
+  margin-bottom: 20px;
+
+  /* font-size: 10px; */
 }
 
 li:hover {
@@ -51,7 +64,49 @@ li:hover {
 }
 
 li a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #ffffff;
   font-size: 2em;
+  text-decoration: none;
+  
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 50px;
+  padding-top: 100px;
+
+  height: 60px;
+  font-size: 72px;
+  color: #438257;
+}
+
+header, li a {
+  background: linear-gradient(
+    to right,
+    hsl(98 100% 62%),
+    hsl(204 100% 59%)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  width: 100vw;
+  padding: 50px 0;
+}
+
+footer a {
+  color: white;
   text-decoration: none;
 }
