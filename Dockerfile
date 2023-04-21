@@ -2,13 +2,15 @@
 FROM python:3.10.10-alpine
 
 # Establecer el directorio de trabajo
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Copiar el archivo requirements.txt a la imagen
 COPY requirements.txt .
 
 # Instalar las dependencias
 RUN pip install --no-cache-dir -r requirements.txt
+
+RUN python manage.py migrate
 
 # Copiar los archivos de la aplicación a la imagen
 COPY . .
