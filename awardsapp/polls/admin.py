@@ -29,7 +29,14 @@ class ChoicesInline(admin.TabularInline):
     
 
 class QuestionAdmin(admin.ModelAdmin):
+    fields = ["pub_date", "question_text"]
     inlines=(ChoicesInline,)
+    # Allows you to edit the question list format
+    list_display = ("question_text", "pub_date", "was_published_recently")
+    # Enable a filter in the admin view
+    list_filter = ["pub_date"]
+    # Enable a search box
+    search_fields = ["question_text"]
 
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)
@@ -38,6 +45,6 @@ class QuestionAdmin(admin.ModelAdmin):
         for instance in instances:
             instance.save()            
 
-
+# If QuestionAdmin is not added, formatting and other changes will not take place
 admin.site.register(Question, QuestionAdmin)
 #admin.site.register(Choice)
